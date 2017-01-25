@@ -13,7 +13,7 @@ class FileReverse{
 
       // check number of command line arguments is at least 2
       if(args.length < 2){
-         System.out.println("Usage: FileCopy <input file> <output file>");
+         System.out.println("Usage: FileReverse <input file> <output file>");
          System.exit(1);
       }
 
