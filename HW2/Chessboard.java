@@ -5,9 +5,12 @@ import java.util.Scanner;
  static public int boardSize=0;
  static public LinkedList pieces= new LinkedList();
  
+//[[NOTE]]:the program can only handle 2 lines at a time per text file
+
  public static void main (String[] args)throws IOException{    
     Scanner in=new Scanner(new File("input.txt"));
     PrintWriter out=new PrintWriter(new FileWriter("analysis.txt"));
+   System.out.print("[[[[[[[NOTE]]]]]]]]]this program can only handle two lines at a time");
     while(in.hasNextLine()){
     //parsing file line by line taken from FileTokens.java (Lab 2)
        String line = in.nextLine().trim()+" ";
