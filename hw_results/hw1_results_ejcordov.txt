@@ -1,2 +1,2 @@
-Grade: 14/10
+Grade: 14/20
 Notes: Did not consider the input position or the ordering of position is wrong
