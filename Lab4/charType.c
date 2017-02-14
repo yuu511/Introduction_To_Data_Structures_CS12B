@@ -1,5 +1,6 @@
-//charType.c
-//Code to read from file taken from FileIO.c
+/*charType.c*/
+/*reads a text file line by line,then sorts and counts kind of characters*/
+/*Code to read from file taken from FileIO.c*/
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -11,17 +12,17 @@ int main(int argc, char* argv[]){
    FILE* out; /* file handle for output */ 
    
    int i;    /* int for indexing of string*/  
-   int j;   /*int for indexing of letters*/
-   int j1;   /*"" numbers*/
-   int j2; /*"" puncuation*/
-   int j3; /*""whitespace*/
+   int j;   /*letters*/
+   int j1;   /*numbers*/
+   int j2; /*puncuation*/
+   int j3; /*whitespace*/
   
    int lineNumber=1; /*int to keep track of line number*/
    
-   int countA; /*int to keep track of how many l there are*/
-   int countD; /*int to keep track of how many numbers there are*/
-   int countP; /*"" punctuation*/
-   int countW; /*"" whitespace*/
+   int countA; /*int to keep track of how many letters there are*/
+   int countD; /*numbers*/
+   int countP; /*punctuation*/
+   int countW; /*whitespace*/
    
    char ch; /*variable to store character for functions*/
    int wordlen; /*int to keep track of max length of the string derived from reading a line */
@@ -89,8 +90,10 @@ int main(int argc, char* argv[]){
       exit(EXIT_FAILURE);
    }
 
+   
   /*The main method for sorting out characters*/
   /*while loop reads input from file line by line and parses the input into a string*/
+  
   while (fgets (s,wordlen,in)){	  
   /*prints line number*/
   fprintf(out,"line %d contains:\n", lineNumber); 
@@ -172,6 +175,7 @@ int main(int argc, char* argv[]){
 	memset(w,0,256);
   }
   
+ /*free memory*/
   free(s);
   s= NULL;
   s=s+1;
@@ -181,6 +185,9 @@ int main(int argc, char* argv[]){
   free(d);
   d= NULL;
   d=d+1;
+  free(p);
+  p=NULL;
+  p=p+1;
   free(w);
   w= NULL;
   w=w+1;
@@ -192,4 +199,4 @@ int main(int argc, char* argv[]){
    return(EXIT_SUCCESS);
 }
 
- 
+
