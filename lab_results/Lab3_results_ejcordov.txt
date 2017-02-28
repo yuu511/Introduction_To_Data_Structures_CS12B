@@ -1,0 +1,5 @@
+Grade: 0/10
+Explanation:
+Missing file (-1): README
+Makefile doesn't build FileReverse.c (-2) 
+FileReverse.c does not compile. (-10) 
