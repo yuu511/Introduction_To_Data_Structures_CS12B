@@ -1,236 +1,241 @@
 import java.io.*;
-import java.util.Scanner;
+
  class Chessboard{
  //initalize boardSize,Linked list
- static public int boardSize=0;
- static public LinkedList pieces= new LinkedList();
+ public static int boardSize;
+ public static Node head;
+ public static BufferedWriter writer;
  
-//[[NOTE]]:the program can only handle 2 lines at a time per text file
-
- public static void main (String[] args)throws IOException{    
-    Scanner in=new Scanner(new File("input.txt"));
-    PrintWriter out=new PrintWriter(new FileWriter("analysis.txt"));
-   System.out.print("[[[[[[[NOTE]]]]]]]]]this program can only handle two lines at a time");
-    while(in.hasNextLine()){
-    //parsing file line by line taken from FileTokens.java (Lab 2)
-       String line = in.nextLine().trim()+" ";
-       String line2= in.nextLine().trim()+" ";
-       String[] token = line.split("\\s+");
-       String[] token2 = line2.split("\\s+");
-
-    //board size is always the first token
-     boardSize=(Integer.parseInt(token[0]));
-   
-    /* for loop starts at 1 (second token)
-     * stops two tokens before the end 
-     * takes in letter and the two integers after that to create the appropriate piece.
-     * non capital=white (true) and capital=black (false);
-     */
-      for (int i=1;i<token.length-2;i=i+3){
-      if (token[i].contains("k")){
-      King newPiece=new King (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),true);
-      pieces.insert(newPiece);
-      }
-      if (token[i].contains("K")){
-      King newPiece=new King (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),false);
-      pieces.insert(newPiece);
-      }
-      
-      if (token[i].contains("q")){
-      Queen newPiece=new Queen (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),true);
-      pieces.insert(newPiece);
-      }
-      if (token[i].contains("Q")){
-      Queen newPiece=new Queen (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),false);
-      pieces.insert(newPiece);
-      }
-      
-      if (token[i].contains("r")){
-      Rook newPiece=new Rook (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),true);
-      pieces.insert(newPiece);
-      }
-      if (token[i].contains("R")){
-      Rook newPiece=new Rook (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),false);
-      pieces.insert(newPiece);;
-      }
-      
-      if (token[i].contains("b")){
-      Bishop newPiece=new Bishop (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),true);
-      pieces.insert(newPiece);
-      }
-      if (token[i].contains("B")){
-      Bishop newPiece=new Bishop (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),false);
-      pieces.insert(newPiece);
-      }
-      
-      if (token[i].contains("n")){
-      Knight newPiece=new Knight (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),true);
-      pieces.insert(newPiece);
-      }
-      if (token[i].contains("N")){
-      Knight newPiece=new Knight (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),false);
-      pieces.insert(newPiece);
-      }
-      
-      if (token[i].contains("p")){
-      Pawn newPiece=new Pawn (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),true);
-      pieces.insert(newPiece);
-      }
-      if (token[i].contains("P")){
-      Pawn newPiece=new Pawn (Integer.parseInt(token[i+1]),Integer.parseInt(token[i+2]),false);
-      pieces.insert(newPiece);
-      }    
-     }
-  
- 
-    
-
-      //method canPlace checks if a chessboard is valid (no 2 pieces on one square, 1 black king, 1 white king)
-       if(pieces.canPlace(pieces,boardSize)){
-       
-       //takes the two integers [col] [row] on the next line and uses LinkedList method .find to check if
-       //a piece with that [col] [row] exists.
-       ChessPiece dummy= (pieces.find(Integer.parseInt(token2[0]),Integer.parseInt(token2[1])));
-       
-       //if not, print -
-         if(dummy==null){
-          out.print("- ");
-          
-         }
-      //otherwise print appropriate Char + space.
-         else{
-        
-          //king
-           if(dummy.toString().contains("King")){
-             if(dummy.isWhite==true){
-               out.print('k'+" ");
-             }
-             else
-               out.print('K'+" ");
-          }
-         
-           //bishop
-           if(dummy.toString().contains("Bishop")){
-             if(dummy.isWhite==true){
-               out.print('b'+" ");
-             }
-             else
-               out.print('B'+" ");
-          }
-           
-           //knight
-           if(dummy.toString().contains("Knight")){
-             if(dummy.isWhite==true){
-               out.print('n'+" ");
-             }
-             else
-               out.print('N'+" ");
-          }
-           
-           //pawn
-           if(dummy.toString().contains("Pawn")){
-             if(dummy.isWhite==true){
-               out.print('p'+" ");
-             }
-             else
-               out.print('P'+" ");
-          }
-           
-           //Queen
-           if(dummy.toString().contains("Queen")){
-             if(dummy.isWhite==true){
-               out.print('q'+" ");
-             }
-             else
-               out.print('Q'+" ");
-          }
-           
-          //Rook
-           if(dummy.toString().contains("Rook")){
-             if(dummy.isWhite==true){
-               out.print('r'+" ");
-             }
-             else
-               out.print('R'+" ");
-          }  
-         }
-         
-        //method twoAttackingPieces returns two pieces that are attacking eachother.
-        ChessPiece[] twoAttackingPieces=new ChessPiece[2];
-        twoAttackingPieces=pieces.findAttackingPieces(pieces,boardSize);
-        
-        //if there are none= print "-"
-        if (twoAttackingPieces[0]==null&&twoAttackingPieces[1]==null){
-          out.print("-");
-        }
-        else {
-          
-        //otherwise, print the appropriate values
-            for(int i=0;i<twoAttackingPieces.length;i++){
-            
-            //King
-            if(twoAttackingPieces[i].toString().contains("King")){
-              if(twoAttackingPieces[i].isWhite==true){
-                out.print('k'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }
-              else
-                out.print('K'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-           }
-           
-            //Knight
-             if(twoAttackingPieces[i].toString().contains("Knight")){
-              if(twoAttackingPieces[i].isWhite==true){
-                out.print('n'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }
-              else
-               out.print('N'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-            }  
-           
-            //Bishop
-             if(twoAttackingPieces[i].toString().contains("Bishop")){
-              if(twoAttackingPieces[i].isWhite==true){
-                out.print('b'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }
-              else
-                out.print('B'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }  
-             
-            //Queen
-             if(twoAttackingPieces[i].toString().contains("Queen")){
-              if(twoAttackingPieces[i].isWhite==true){
-                out.print('q'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }
-              else
-                out.print('Q'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              } 
-             
-             //Rook
-             if(twoAttackingPieces[i].toString().contains("Rook")){
-              if(twoAttackingPieces[i].isWhite==true){
-                out.print('r'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }
-              else
-                out.print('R'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }
-            
-            //Pawn
-             if(twoAttackingPieces[i].toString().contains("Pawn")){
-              if(twoAttackingPieces[i].isWhite==true){
-                out.print('p'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }
-              else
-                out.print('P'+" "+twoAttackingPieces[i].col+" "+twoAttackingPieces[i].row+" ");
-              }  
-
-        
-            }
-        }
-    }
-       else{
-         out.print("Invalid");
-       }
+   // constructor for new chessBoard
+  public Chessboard() {
+    head = new Node();
   }
-    in.close();
-    out.close();
- }  
+  
+  //inserts and connects nodes in a linked list
+  public Node insert (Node newNode){
+    Node temp=head.next;
+    head.next=newNode;
+    newNode.next=temp;
+    return head;
+  }
+  
+  //finds node at col, row
+   public Node findNode(int col, int row) {
+    Node tester = head.next;
+    while(tester != null) {
+      if(tester.piece.col== col && tester.piece.row == row) {
+        return tester;
+      }
+      tester = tester.next;
+    }
+    return null;
+  }
+  
+   
+  
+  //simple method for printing out information of chessPieces in a linked list
+  public static void traverse(){
+    Node current=head.next;
+    while (current!=null){   
+      System.out.print (current.piece+" ");
+      System.out.print (current.piece.col+" ");
+      System.out.println (current.piece.row+" ");
+      current=current.next;
+    }
+  }
+  
+  //reads / input
+  public static void readInput(){
+    int linecount=0;
+    int[] secondLine=new int [2];
+    Chessboard chessboard=null;
+     try {
+        BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
+        String line;
+        while ((line = reader.readLine()) != null) {
+        String[] values = line.split(" ");
+        //reads the first lines input
+          if(linecount % 2 == 0) {
+              chessboard = new Chessboard();
+              boardSize=Integer.parseInt(values[0]);
+        //creates the apprropriate piece in the linked list
+                for(int i = 1; i < values.length; i += 3) {
+                head = chessboard.insert(new Node(Integer.parseInt(values[i+1]),Integer.parseInt(values[i+2]),values[i].charAt(0)));
+              }
+          }
+          else{
+          //reads the second lines of inputs
+            secondLine[0]= Integer.parseInt(values[0]);
+            secondLine[1]= Integer.parseInt(values[1]);
+            castAnalysis(chessboard,secondLine);
+          }
+          linecount++;        
+        }
+        reader.close();
+     }  
+     catch (Exception e) {
+       System.out.print("Error reading input.txt");
+     }
+
+  }
+  
+  //main method to run all of the checks to the analysis file
+  public static void castAnalysis(Chessboard chessboard,int[]secondline){
+  
+    //ensures that there are no two pieces on the same spot and if there is exactly one king of each color
+    if(!chessboard.checkKings()||!chessboard.checkListPieces()){
+      outputAnalysis("Invalid\n");
+      return;
+     }
+    
+    //finds a chesspiece at the the query requested
+    outputAnalysis(chessboard.findPiece(secondline[0],secondline[1])+" ");
+    //finds a piece that is attacking another and prints it out to analysis file
+    chessboard.attackingCheck();
+
+  }
+  
+  //counts how many pieces there are in any col, row
+  //returns how many pieces there are in that col,row
+  public int checkAmountofPieces(int col,int row){
+    Node dummy=head.next;
+    int amountOfPieces=0;
+    while (dummy!=null){
+      if (dummy.piece.col==col && dummy.piece.row==row){
+        amountOfPieces++;
+      }
+      dummy=dummy.next;
+    }
+    return amountOfPieces;
+  }
+  
+  //checks for every col,row there is a piece if there are more than one piece on that col,row
+  //returns true if not.
+  public boolean checkListPieces (){
+    Node dummy=head.next;
+    while(dummy!=null){
+      if (checkAmountofPieces(dummy.piece.col,dummy.piece.row)>1){
+        return false;
+      }
+     dummy=dummy.next;
+    }
+    return true;
+  }
+  
+  //function to check if there is exactly one black and one white king
+  public boolean checkKings(){
+    Node dummy=head.next;
+    ChessPiece piece=null;
+    int whiteKingCtr=0;
+    int blackKingCtr=0;
+    while(dummy!=null){
+      piece=dummy.piece;
+      if (piece instanceof King){
+        if (piece.isWhite==true)
+          whiteKingCtr++;
+        if (piece.isWhite==false)
+          blackKingCtr++;
+      }
+     dummy=dummy.next;
+    }
+     if (whiteKingCtr==1&&blackKingCtr==1){
+       return true;
+     }
+     return false;   
+    }
+  
+  //finds piece at col,row
+  public char findPiece(int col, int row){
+   Node dummy= findNode(col,row);
+   if (dummy!=null){
+     return findCharRepresentation(dummy);
+   }
+   return '-';
+  }
+  
+  //checks to see if a piece is attacking another
+  public void attackingCheck() {
+   //Get linked list
+    Node dummy = head.next;
+
+   //nested while loop, which compares the pieces to eachother
+    while(dummy != null) {
+      Node compare = head.next;
+      while(compare != null) {
+        if(compare!=dummy && dummy.piece.isAttacking(compare.piece)) {
+          outputAnalysis(findCharRepresentation(dummy) + " " + dummy.piece.col + " " + dummy.piece.row + " " + findCharRepresentation(compare) + " " + compare.piece.col + " " + compare.piece.row + "\n");
+          return;
+        }
+        compare=compare.next;
+      }
+      dummy=dummy.next;
+    }
+    outputAnalysis("-\n");
+  }
+  
+  //finds char representation of pieces
+    public static char findCharRepresentation(Node node){
+      ChessPiece piece = node.piece;
+      if(piece instanceof King) {
+        if(piece.isWhite==true) {
+            return 'k';
+        }
+        return 'K';
+      }
+      if(piece instanceof Queen) {
+        if(piece.isWhite==true) {
+            return 'q';
+        }
+        return 'Q';
+      }
+      if(piece instanceof Rook) {
+        if(piece.isWhite==true) {
+            return 'r';
+        }
+        return 'R';
+      }
+      if(piece instanceof Bishop) {
+        if(piece.isWhite==true) {
+            return 'b';
+        }
+        return 'B';
+      }
+      if(piece instanceof Knight) {
+        if(piece.isWhite==true) {
+            return 'n';
+        }
+        return 'N';
+      }
+      if(piece instanceof Pawn) {
+        if(piece.isWhite==true) {
+            return 'p';
+        }
+        return 'P';
+      }
+      return 'x';
+    }
+    
+  //method to write a string to analysis file
+  public static void outputAnalysis(String string) {
+    try {
+        writer.write(string);
+    }
+    catch (Exception e) {
+      System.out.print("writer error");
+    }
+  }
+    
+  public static void main(String[] args) {
+    try{
+      //file to write to
+      writer = new BufferedWriter(new FileWriter("analysis.txt"));
+      //read input.txt
+      readInput();
+      writer.close();
+    }
+    catch (Exception e){
+      System.out.print("BufferedWriter error.");
+    }
+  }
+
 }

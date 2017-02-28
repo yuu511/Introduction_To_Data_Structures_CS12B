@@ -2,10 +2,10 @@
 # A Makefile with macros
 #------------------------------------------------------------------------------
 
-JAVASRC    = Chessboard.java Bishop.java ChessPiece.java King.java Knight.java LinkedList.java Node.java Pawn.java Queen.java Rook.java
+JAVASRC    = Chessboard.java Bishop.java ChessPiece.java King.java Knight.java Node.java Pawn.java Queen.java Rook.java
 SOURCES    = README Makefile $(JAVASRC)
 MAINCLASS  = Chessboard
-CLASSES    = Chessboard.class Bishop.class ChessPiece.class King.class Knight.class LinkedList.class Node.class Pawn.class Queen.class Rook.class
+CLASSES    = Chessboard.class Bishop.class ChessPiece.class King.class Knight.class Node.class Pawn.class Queen.class Rook.class
 JARFILE    = Chessboard.jar
 
 
