@@ -1,4 +1,4 @@
-Grade: //20
-Notes: invalid format of analysis file
+Grade: 18/20
+Notes: All validity, find, attacks and pawns work, incorrect orig submission
 
 Late by 6 hours
