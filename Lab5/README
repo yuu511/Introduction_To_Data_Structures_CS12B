@@ -1,0 +1,6 @@
+Dictionary.c uses the Linked List ADT to store int values.
+It has  basic find, delete, and insert functions, along with functions that free memory.
+I parsed input using fgets to get lines in a file, and sscanf to parse the lines.
+Make will compile and create an executable given the approprate files given the correct 
+Dictionary.h file is in the same repositiory.
+Make check runs valgrind,and assumes that input file name is in, and output file name is out.
