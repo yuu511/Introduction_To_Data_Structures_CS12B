@@ -49,8 +49,11 @@ int main(int argc, char* argv[]){
 	   
 	   /*delete*/
 	   if (inputType[0]=='d'){
+		   Node dummy=find(inputNum,newList);		   
+		   if (dummy!=NULL){
 		   delete(inputNum,newList);
 		   fprintf(out,"deleted %d\n",inputNum);
+		   }
 	   }
 	   
 	   /*find*/
